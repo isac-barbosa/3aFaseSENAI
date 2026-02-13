@@ -1,0 +1,103 @@
+CREATE DATABASE prova;
+
+
+CREATE TABLE produto(
+id_produto INT NOT NULL PRIMARY KEY,
+nome VARCHAR(150),
+categoria VARCHAR(100),
+valor_unitario DECIMAL(10,2) NOT NULL,
+estoque_minimo INT NOT NULL DEFAULT 0,
+estoque_maximo INT NOT NULL DEFAULT 0,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE movimentacoes (
+    id_movimentacoes INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tipo_produto ENUM('ENTRADA', 'SAIDA') NOT NULL,
+    quantidade INT,
+    produto_id INT NOT NULL,
+    data_movimentacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (produto_id) REFERENCES produto (id_produto)
+);
+
+INSERT INTO produto
+(id_produto, nome, categoria, valor_unitario, estoque_minimo, estoque_maximo)
+VALUES
+(1,'Caneta','Papelaria','1.50', 5, 28),
+(2,'Camiseta','Moda','30.00', 10, 50),
+(3,'Furadeira','Material','110.00', 3, 10);
+
+
+INSERT INTO movimentacoes
+(produto_id, tipo_produto, quantidade, data_movimentacao)
+VALUES
+(1,'ENTRADA','30','2026-01-03 09:00:00'),
+(2,'SAIDA','5','2026-01-20 13:15:00'),
+(3,'SAIDA','1','2026-01-04 10:00:00');
+
+
+
+SELECT * FROM produto;
+SELECT * FROM movimentacoes;
+
+
+CREATE VIEW vw_estoque AS
+SELECT id_produto as produto_id ,
+nome,
+categoria,
+valor_unitario,
+SUM(
+ CASE 
+   WHEN movimentacoes.tipo_produto = 'ENTRADA' THEN movimentacoes.quantidade
+   WHEN movimentacoes.tipo_produto = 'SAIDA' THEN -movimentacoes.quantidade
+   ELSE 0
+END) as saldo_estoque,
+
+SUM(
+ CASE 
+	WHEN movimentacoes.tipo_produto = 'ENTRADA' THEN movimentacoes.quantidade
+   WHEN movimentacoes.tipo_produto = 'SAIDA' THEN -movimentacoes.quantidade
+   ELSE 0
+END) *produto.valor_unitario as valor_total_item	
+
+FROM produto 
+LEFT JOIN movimentacoes  ON movimentacoes.produto_id = produto_id
+GROUP BY id_produto,
+nome,
+categoria,
+valor_unitario;
+
+SELECT tipo_produto, data_movimentacao FROM movimentacoes
+WHERE tipo_produto = 'SAIDA'
+ORDER BY data_movimentacao DESC;
+
+
+
+
+
+
+
+
+
+SELECT sum(movimentacoes.quantidade) AS contagem_saidas FROM movimentacoes WHERE tipo_produto = 'SAIDA';
+SELECT sum(movimentacoes.quantidade) AS contagem_entrada FROM movimentacoes WHERE tipo_produto = 'ENTRADA';
+
+
+SELECT movimentacoes.tipo_produto, sum(produto.valor_unitario) as total_valor_unitario FROM produto
+JOIN movimentacoes
+ON movimentacoes.produto_id = produto.id_produto
+GROUP BY movimentacoes.tipo_produto;
+
+
+
+SELECT min(produto.estoque_minimo) FROM produto 
+WHERE estoque_minimo = 1;
+
+SELECT max(produto.estoque_maximo) FROM produto 
+WHERE estoque_maximo = 15;
+
+
+
+SELECT sum(produto.valor_unitario) AS valor_total_financeiro_entrada FROM produto WHERE tipo_produto = 'ENTRADA';
+drop database prova;

@@ -1,0 +1,10 @@
+.header{
+    background-color: rgb(42, 134, 181);
+    color: #eeeeee;
+    padding: 20px;
+    text-align:center ;
+
+    .title{
+        font-size: 50px;
+    }
+}

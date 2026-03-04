@@ -1,9 +1,10 @@
 .Body{
     padding: 20px;
     background-color: #00008b;
+    
 }
 .cardContainer{
     display: flex;
-    gap: 16px;
+    gap: 10px;
     flex-wrap: wrap;
 }

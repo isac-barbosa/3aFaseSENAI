@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1773101116862" clover="3.2.0">
+  <project timestamp="1773101116862" name="All files">
+    <metrics statements="7" coveredstatements="7" conditionals="6" coveredconditionals="6" methods="1" coveredmethods="1" elements="14" coveredelements="14" complexity="0" loc="7" ncloc="7" packages="1" files="1" classes="1"/>
+    <file name="userService.js" path="C:\isac\3aFaseSENAI\Teste-De-Sistemas\Atividades\atividade-testes-01\src\userService.js">
+      <metrics statements="7" coveredstatements="7" conditionals="6" coveredconditionals="6" methods="1" coveredmethods="1"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="3" type="cond" truecount="4" falsecount="0"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="4" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="8" count="1" type="stmt"/>
+      <line num="15" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

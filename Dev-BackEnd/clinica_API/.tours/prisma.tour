@@ -1,0 +1,26 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Prisma",
+  "steps": [
+    {
+      "file": "prisma/schema.prisma",
+      "description": "O prisma sempre tem que estar atualizado independente de qualquer coisa\r\n",
+      "line": 15
+    },
+    {
+      "file": "prisma/migrations/20260312224214_tabela_exame/migrationC.sql",
+      "description": "Corrigi a tabela Exame no prisma",
+      "line": 7
+    },
+    {
+      "file": "prisma/migrations/20260312224214_tabela_exame/migration.sql",
+      "description": "Quando rodado o comando npx prisma migrate dev --name tabela_exame ele cria este codigo SQL",
+      "line": 2
+    },
+    {
+      "file": "prisma/schema.prisma",
+      "description": "Após fazer a tabela pra saber se esta tudo certo rode este comando \"npx prisma format\"",
+      "line": 32
+    }
+  ]
+}

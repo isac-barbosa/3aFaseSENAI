@@ -40,6 +40,7 @@ app.post("/usuarios", async (req, res) => {
 })
 
 
+
 app.put('/usuarios', async (req, res) => {
   const idUsuario = Number(req.params)
   const dadosParaAtualizar = req.body as Omit<Usuario, 'id'>
@@ -60,17 +61,17 @@ app.put('/usuarios', async (req, res) => {
 })
 
 
-app.delete('/usuario/:id', async (req,res) =>{
- const idUsuario = Number(req.params.id)
- const deletarUsuario = await prisma.usuario.delete({
-  where:{
-    id: idUsuario
-  }
- })
- return res.status(200).json({
-  message: "Usuário deletado com sucesso",
-  data: deletarUsuario
- })
+app.delete('/usuarios/:id', async (req, res) => {
+  const idUsuario = Number(req.params.id)
+  const deletarUsuario = await prisma.usuario.delete({
+    where: {
+      id: idUsuario
+    }
+  })
+  return res.status(200).json({
+    message: "Usuário deletado com sucesso",
+    data: deletarUsuario
+  })
 })
 
 
@@ -78,6 +79,15 @@ app.delete('/usuario/:id', async (req,res) =>{
 app.get('/exame', async (req, res) => {
   const exames = await prisma.exame.findMany()
   res.json(exames)
+})
+app.get('/exame/:id', async (req, res) => {
+  const idExame = Number(req.params.id)
+  const exame = await prisma.exame.findUnique({
+    where: {
+      id: idExame
+    }
+  })
+  return res.status(200).json(exame)
 })
 
 app.post('/exame', async (req, res) => {
@@ -95,8 +105,40 @@ app.post('/exame', async (req, res) => {
   return res.status(201).json(dadosExameCriado)
 })
 
+app.put('/exame/:id', async (req, res) => {
+  const idExame = Number(req.params.id)
+  const dadosAtualizados = req.body as Omit<Exame, "id">
+  console.log(dadosAtualizados)
+  await prisma.exame.update({
+    data: {
+      ...dadosAtualizados,
+      data_exame: new Date(dadosAtualizados.data_exame)
+    },
+    where: {
+      id: idExame
+    }
+  })
+  const exameAtualizado = await prisma.exame.findUnique({
+    where: {
+      id: idExame
+    }
+  })
+  return res.status(201).json(exameAtualizado)
+})
 
 
+app.delete('/exame/:id', async (req, res) => {
+  const idExame = Number(req.params.id)
+  const deletarExame = await prisma.exame.delete({
+    where: {
+      id: idExame
+    }
+  })
+  return res.status(200).json({
+    message: "Exame deletado com sucesso",
+    data: deletarExame
+  })
+})
 
 app.listen(port, () => {
   console.log("Servidor ta de pé :p")

@@ -1,6 +1,8 @@
 import express from 'express';
 import { prisma } from './prisma/prisma';
-import type { Exame, Usuario } from './prisma/generated/prisma/client';
+import type { Exame, Usuario, TypeToken } from './prisma/generated/prisma/client';
+import { createHash } from './utils/createHash';
+import bcrypt from "bcryptjs"
 
 const app = express();
 app.use(express.json())
@@ -11,8 +13,53 @@ app.get('/', (req, res) => {
   res.send("Hello world")
 })
 
+//Endpoints cadastro
+app.post("/cadastro", async (req, res) => {
+  console.log(req.body)
+  const dadosUsuario = req.body as Usuario
+  const hash = await createHash(dadosUsuario.senha);
+  const usuarioCriado = await prisma.usuario.create({
+    data: {
+      email: dadosUsuario.email,
+      nome: dadosUsuario.nome || null,
+      senha: hash
+    }
+  })
+  return res.status(201).json(usuarioCriado)
+})
+
+
+//Endpoint Login
+app.post("/login", async (req, res) => {
+  const { email, senha } = req.body as Usuario
+
+  try {
+    const user = await prisma.usuario.findUnique({
+      where: {
+        email
+      }
+    })
+
+    if (!user) {
+      return res.status(401).json({ message: "Credenciais inválidos" })
+    }
+
+    const isPasswordValid = await bcrypt.compare(senha, user.senha)
+    console.log(isPasswordValid)
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Credenciais inválidos" })
+    }
+
+    return res.status(200).json({ message: "Login bem-sucedido" })
+
+  } catch (error) {
+    return res.status(500).json({ message: "Erro no servidor" })
+  }
+})
+
 // Endpoints usuario
-app.get('/usuarios', async (req, res) => {
+app.get('/usuarios', async (_, res) => {
   const usuarios = await prisma.usuario.findMany();
   res.json(usuarios);
 })
@@ -30,10 +77,12 @@ app.get('/usuarios/:id', async (req, res) => {
 app.post("/usuarios", async (req, res) => {
   console.log(req.body)
   const dadosUsuario = req.body as Usuario
+  const hash = await createHash(dadosUsuario.senha,);
   const usuarioCriado = await prisma.usuario.create({
     data: {
       email: dadosUsuario.email,
-      nome: dadosUsuario.nome || null
+      nome: dadosUsuario.nome || null,
+      senha: hash
     }
   })
   return res.status(201).json(usuarioCriado)

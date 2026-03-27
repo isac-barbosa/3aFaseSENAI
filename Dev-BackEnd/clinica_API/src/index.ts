@@ -3,6 +3,8 @@ import { prisma } from './prisma/prisma';
 import type { Exame, Usuario, TypeToken } from './prisma/generated/prisma/client';
 import { createHash } from './utils/createHash';
 import bcrypt from "bcryptjs"
+import { signTokenAcesso, signTokenRefresh } from './utils/jwt';
+import { auth } from './middleware/auth';
 
 const app = express();
 app.use(express.json())
@@ -12,7 +14,6 @@ app.get('/', (req, res) => {
   console.log(req)
   res.send("Hello world")
 })
-
 //Endpoints cadastro
 app.post("/cadastro", async (req, res) => {
   console.log(req.body)
@@ -31,32 +32,63 @@ app.post("/cadastro", async (req, res) => {
 
 //Endpoint Login
 app.post("/login", async (req, res) => {
-  const { email, senha } = req.body as Usuario
+  const dadosUsuario = req.body as Partial<Usuario>
+  const existeUsuario = await prisma.usuario.findUnique({
+    where: {
+      email: dadosUsuario.email || '',
+    }
+  })
+  const credenciaisValidas = await bcrypt.compare(dadosUsuario.senha || "", existeUsuario?.senha || "")
 
-  try {
-    const user = await prisma.usuario.findUnique({
-      where: {
-        email
+  if (existeUsuario && credenciaisValidas) {
+    const tokenAcesso = signTokenAcesso({
+      email: existeUsuario.email,
+      nome: existeUsuario.nome
+    })
+    const tokenRefresh = signTokenRefresh({
+      email: existeUsuario.email,
+      nome: existeUsuario.nome
+    })
+
+    const accessExpires = new Date()
+    const accessExpiresUpdate = accessExpires.setHours(accessExpires.getHours() + 1)
+    // acesso create
+    await prisma.token.create({
+      data: {
+        token: tokenAcesso,
+        expiresAt: new Date(accessExpiresUpdate),
+        type: 'ACCESS',
+        usuarioId: existeUsuario.id
       }
     })
 
-    if (!user) {
-      return res.status(401).json({ message: "Credenciais inválidos" })
-    }
+    //refresh create
+    const refreshExpires = new Date()
+    const refreshExpiresUpdated = refreshExpires.setMonth(refreshExpires.getMonth() + 1)
 
-    const isPasswordValid = await bcrypt.compare(senha, user.senha)
-    console.log(isPasswordValid)
+    await prisma.token.create({
+      data: {
+        token: tokenRefresh,
+        expiresAt: new Date(refreshExpiresUpdated),
+        type: 'REFRESH',
+        usuarioId: existeUsuario.id
+      }
+    })
 
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Credenciais inválidos" })
-    }
-
-    return res.status(200).json({ message: "Login bem-sucedido" })
-
-  } catch (error) {
-    return res.status(500).json({ message: "Erro no servidor" })
+    return res.status(200).json({
+      message: "Usuário autenticado com sucesso!",
+      accessToken: tokenAcesso,
+      refreshToken: tokenRefresh
+    })
   }
+
+  return res.status(401).json({
+    message: "Credenciais inválidas"
+  })
+
 })
+
+app.use(auth)
 
 // Endpoints usuario
 app.get('/usuarios', async (_, res) => {
@@ -90,8 +122,8 @@ app.post("/usuarios", async (req, res) => {
 
 
 
-app.put('/usuarios', async (req, res) => {
-  const idUsuario = Number(req.params)
+app.put('/usuarios/:id', async (req, res) => {
+  const idUsuario = Number(req.params.id)
   const dadosParaAtualizar = req.body as Omit<Usuario, 'id'>
   await prisma.usuario.update({
     data: {
@@ -106,7 +138,7 @@ app.put('/usuarios', async (req, res) => {
       id: idUsuario
     }
   })
-  return res.status(201).json(usuarioAtualizado)
+  return res.status(200).json(usuarioAtualizado)
 })
 
 
@@ -129,15 +161,7 @@ app.get('/exame', async (req, res) => {
   const exames = await prisma.exame.findMany()
   res.json(exames)
 })
-app.get('/exame/:id', async (req, res) => {
-  const idExame = Number(req.params.id)
-  const exame = await prisma.exame.findUnique({
-    where: {
-      id: idExame
-    }
-  })
-  return res.status(200).json(exame)
-})
+
 
 app.post('/exame', async (req, res) => {
   const dadosExame = req.body as Exame
@@ -148,10 +172,19 @@ app.post('/exame', async (req, res) => {
       descricao: dadosExame.descricao,
       resultado: dadosExame.resultado,
       data_exame: new Date(dadosExame.data_exame)
-
+      
     }
   })
   return res.status(201).json(dadosExameCriado)
+})
+app.get('/exame/:id', async (req, res) => {
+  const idExame = Number(req.params.id)
+  const exame = await prisma.exame.findUnique({
+    where:{
+      id: idExame
+    }
+  })
+    return res.status(200).json(exame)
 })
 
 app.put('/exame/:id', async (req, res) => {
@@ -188,6 +221,8 @@ app.delete('/exame/:id', async (req, res) => {
     data: deletarExame
   })
 })
+
+
 
 app.listen(port, () => {
   console.log("Servidor ta de pé :p")

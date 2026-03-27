@@ -4,6 +4,8 @@ import type { Usuario } from '../prisma/generated/prisma/client'
 
 
 export function signTokenAcesso(payload: Partial<Usuario>) {
+    console.log(payload, env)
+    console.log(process.env)
     return jwt.sign(payload, env.chaveAcesso, {
         expiresIn: '1h'
     })

@@ -21,14 +21,14 @@
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "views": 169
     },
-        {
+    {
       "id": "4",
       "image": "https://placehold.co/300x200",
       "title": "a title",
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
       "views": 70
     },
-            {
+    {
       "id": "5",
       "image": "https://placehold.co/300x200",
       "title": "a title",
@@ -61,6 +61,48 @@
       "id": "2",
       "name": "Beatriz",
       "age": 58
+    }
+  ],
+  "autores": [
+    {
+      "id": 1,
+      "nome": "Machado de Assis",
+      "foto": "https://placehold.co/300x200",
+      "obra_principal": "Dom Casmurro",
+      "nascimento": 1839,
+      "descricao": "Um dos maiores escritores brasileiros, conhecido por obras como Dom Casmurro."
+    },
+    {
+      "id": 2,
+      "nome": "Clarice Lispector",
+      "foto": "https://placehold.co/300x200",
+      "obra_principal": "A Hora da Estrela",
+      "nascimento": 1920,
+      "descricao": "Escritora famosa por sua escrita introspectiva."
+    },
+    {
+      "id": 3,
+      "nome": "Jorge Amado",
+      "foto": "https://placehold.co/300x200",
+      "obra_principal": "Gabriela, Cravo e Canela",
+      "nascimento": 1912,
+      "descricao": "Autor que retratou a cultura brasileira em suas obras."
+    },
+    {
+      "id": 4,
+      "nome": "Monteiro Lobato",
+      "foto": "https://placehold.co/300x200",
+      "obra_principal": "Sítio do Picapau Amarelo",
+      "nascimento": 1882,
+      "descricao": "Importante escritor da literatura infantil."
+    },
+    {
+      "id": 5,
+      "nome": "Carlos Drummond de Andrade",
+      "foto": "https://placehold.co/300x200",
+      "obra_principal": "No Meio do Caminho",
+      "nascimento": 1902,
+      "descricao": "Poeta consagrado da literatura brasileira."
     }
   ]
 }

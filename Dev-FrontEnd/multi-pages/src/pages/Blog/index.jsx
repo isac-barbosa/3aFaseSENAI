@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 
 const Blog = () => {
     const [posts, setPosts] = useState([])
@@ -12,14 +13,16 @@ const Blog = () => {
     }, [])
     return (
         <>
-            <div className='flex gap-2'>
+            <div className='flex gap-2 pt-5'>
                 {
                     posts.map(post => (
                         <div key={post.id} className='card'>
                             <img src={post.image} alt={post.title} />
                             <h2>{post.title}</h2>
-                            <h3>{post.view}</h3>
+                            <h3>{post.views}</h3>
                             <p>{post.description}</p>
+                            {/* <a href="#">Leia mais</a> */}
+                            <Link to={`/post/${post.id}`} className='text-white bg-blue-500: hover'> Ver mais</Link>
                         </div>
                     ))
                 }

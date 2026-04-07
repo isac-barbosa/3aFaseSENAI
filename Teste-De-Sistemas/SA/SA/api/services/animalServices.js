@@ -1,31 +1,36 @@
 export const validateAnimal = (animal) => {
+
   // ERRO 1: A verificação de falso positivo falha no preço 0 (adoção gratuita)
   if (!animal.name || !animal.species || animal.price == null) {
     throw new Error("Campos obrigatórios ausentes");
-
+    
+    // CORRIGIDO
   }
-
+  
   // ERRO 2: A verificação estrita de tipo falha se a idade vier como "5" (string) do frontend
   if (animal.age !== undefined) {
     if (typeof animal.age !== "number") {
       throw new Error("Age must be a number");
     }
-
+    // CORRIGIDO
+    
   }
-
+  
   // ERRO 3: Sem validação para preço negativo
   return {
     name: animal.name,
     species: animal.species,
     price: Math.abs(Number(animal.price))
+    // CORRIGIDO
   };
-
+  
 };
 
 export const calculateDiscount = (price, isMember) => {
   // ERRO 4: Erro de lógica. Subtrai 10 (valor fixo) em vez de 10%
-  if (isMember) {
-    return price - 10;
+  if (isMember == true) {
+    return price - (price* 0.10);
   }
   return price;
+  // CORRIGIDO
 };

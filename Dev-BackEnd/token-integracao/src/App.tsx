@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import  Login  from './pages/Login';
-import  Cadastro  from './pages/Cadastro';
+import { useEffect, useState } from 'react'
+import { Login } from './Login'
+import { Registrar } from './Registrar';
 import { Home } from './Home';
 
 function App() {

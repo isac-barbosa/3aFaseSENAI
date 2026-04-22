@@ -1,5 +1,6 @@
 import type { PrismaClient } from "@prisma/client/extension";
 import type { Exame } from "../prisma/generated/prisma/client";
+import { prisma } from "../prisma/prisma";
 
 export class ExameRepository {
     constructor(private readonly prisma: PrismaClient) {

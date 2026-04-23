@@ -1,19 +1,28 @@
 import type { Request, Response } from "express";
 import type { Usuario } from "../prisma/generated/prisma/client"
-import type { UsuarioServices } from "../services/UsuarioServices";
+import { usuarioServices, type UsuarioServices } from "../services/UsuarioServices";
 
 class UsuarioController {
     constructor(private readonly service: UsuarioServices) {
     }
 
-    async cadastrar(req: Request, res: Response) {
+    async listarUsuarios(_: Request, res: Response){
+        try{
+            const usuarios = await this.service.listarUsuarios();
+            return res.status(200).json(usuarios)
+        }catch (error){
+            console.log(error)
+            return res.status(404).json({
+                error
+            })
+        }        
+    }
+
+    async criarUsuario(req: Request, res: Response) {
         try {
             const dadosUsuario = req.body as Usuario
-            const usuarioCriado = await this.service.cadastrar(dadosUsuario);
-            return res.status(201).json({
-                message: "Usuário criado com sucesso!",
-                data: usuarioCriado
-            })
+            const usuarioCriado = await this.service.criarUsuario(dadosUsuario);
+            return res.status(201).json(usuarioCriado)
         } catch (error) {
             console.log(error)
             return res.status(404).json({
@@ -22,16 +31,43 @@ class UsuarioController {
         }
     }
 
-    async logar(req: Request, res: Response) {
+    async buscarUserId(req: Request, res: Response) {
         try {
-            const dadosUsuario = req.body as Partial<Usuario>
-            const dadosLogin = await this.service.logar(dadosUsuario);
-            return res.status(200).json({
-                message: "Usuário autenticado com sucesso!",
-                accessToken: dadosLogin.tokenAcesso,
-                refreshToken: dadosLogin.tokenRefresh
-            })
+            const idUsuario = Number(req.params.id)
+            const usuario = await this.service.buscarUserId(idUsuario);
+            return res.status(200).json(usuario)
         } catch (error) {
+            console.log(error)
+            return res.status(404).json({
+                error
+            })
+        }
+    }
+
+
+    async atualizarUser(req: Request, res: Response){
+        try{
+            const idUsuario = Number(req.params.id)
+            const dadosParaAtualizar = req.body as Omit<Usuario, 'id'>
+            const usuarioAtualizado = await this.service.atualizarUser(idUsuario, dadosParaAtualizar)
+            return res.status(200).json(usuarioAtualizado)
+        }catch (error){
+            console.log(error)
+            return res.status(404).json({
+                error
+            })
+        }
+    }
+
+    async deletarUser(req: Request, res: Response){
+        try{
+            const idUsuario = Number(req.params.id)
+            const usuario = await this.service.deletarUser(idUsuario)
+            return res.status(200).json({
+                mensagem: "Usuário deletado com sucesso",
+                data: usuario
+            });
+        }catch(error) {
             console.log(error)
             return res.status(404).json({
                 error

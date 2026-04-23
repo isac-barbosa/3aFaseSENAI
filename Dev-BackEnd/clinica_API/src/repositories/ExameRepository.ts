@@ -17,8 +17,41 @@ export class ExameRepository {
         }
         })
     }
-    async buscarExame(){
-        const exame = await prisma.exame.findMany()
+    async buscarExameId( idExame: Number){
+        const exame = await prisma.idExame.findUnique({
+            where:{
+                id: idExame
+            }
+        })
+       return exame
+    }
 
+    async atualizarExame(){
+        const idExame = Number(this.prisma.id)
+        const dadosAtualizados = prisma.exame as Partial<Exame>
+        await this.prisma.exame.update({
+            data:{
+                dadosAtualizados
+            },
+            where:{
+                id: idExame
+            }
+        })
+        const exameAtualizado = await prisma.exame.findUnique({
+            where:{
+                id: idExame
+            } 
+        })
+        return exameAtualizado
+    }
+    async deletarExame(){
+        const idExame = Number(this.prisma.id)
+        return await prisma.exame.delete({
+            where: {
+                id: idExame
+            }
+        })
     }
 }
+
+export const exameRepository = new ExameRepository(prisma)

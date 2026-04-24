@@ -209,6 +209,7 @@ export type UsuarioWhereInput = {
   nome?: Prisma.StringNullableFilter<"Usuario"> | string | null
   senha?: Prisma.StringFilter<"Usuario"> | string
   tokens?: Prisma.TokenListRelationFilter
+  prontuarios?: Prisma.ProntuarioListRelationFilter
 }
 
 export type UsuarioOrderByWithRelationInput = {
@@ -217,6 +218,7 @@ export type UsuarioOrderByWithRelationInput = {
   nome?: Prisma.SortOrderInput | Prisma.SortOrder
   senha?: Prisma.SortOrder
   tokens?: Prisma.TokenOrderByRelationAggregateInput
+  prontuarios?: Prisma.ProntuarioOrderByRelationAggregateInput
 }
 
 export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
@@ -228,6 +230,7 @@ export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
   nome?: Prisma.StringNullableFilter<"Usuario"> | string | null
   senha?: Prisma.StringFilter<"Usuario"> | string
   tokens?: Prisma.TokenListRelationFilter
+  prontuarios?: Prisma.ProntuarioListRelationFilter
 }, "id" | "email">
 
 export type UsuarioOrderByWithAggregationInput = {
@@ -257,6 +260,7 @@ export type UsuarioCreateInput = {
   nome?: string | null
   senha: string
   tokens?: Prisma.TokenCreateNestedManyWithoutUsuarioInput
+  prontuarios?: Prisma.ProntuarioCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateInput = {
@@ -265,6 +269,7 @@ export type UsuarioUncheckedCreateInput = {
   nome?: string | null
   senha: string
   tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUsuarioInput
+  prontuarios?: Prisma.ProntuarioUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUpdateInput = {
@@ -272,6 +277,7 @@ export type UsuarioUpdateInput = {
   nome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   senha?: Prisma.StringFieldUpdateOperationsInput | string
   tokens?: Prisma.TokenUpdateManyWithoutUsuarioNestedInput
+  prontuarios?: Prisma.ProntuarioUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateInput = {
@@ -280,6 +286,7 @@ export type UsuarioUncheckedUpdateInput = {
   nome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   senha?: Prisma.StringFieldUpdateOperationsInput | string
   tokens?: Prisma.TokenUncheckedUpdateManyWithoutUsuarioNestedInput
+  prontuarios?: Prisma.ProntuarioUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioCreateManyInput = {
@@ -366,10 +373,25 @@ export type UsuarioUpdateOneRequiredWithoutTokensNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutTokensInput, Prisma.UsuarioUpdateWithoutTokensInput>, Prisma.UsuarioUncheckedUpdateWithoutTokensInput>
 }
 
+export type UsuarioCreateNestedOneWithoutProntuariosInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutProntuariosInput, Prisma.UsuarioUncheckedCreateWithoutProntuariosInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutProntuariosInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+}
+
+export type UsuarioUpdateOneRequiredWithoutProntuariosNestedInput = {
+  create?: Prisma.XOR<Prisma.UsuarioCreateWithoutProntuariosInput, Prisma.UsuarioUncheckedCreateWithoutProntuariosInput>
+  connectOrCreate?: Prisma.UsuarioCreateOrConnectWithoutProntuariosInput
+  upsert?: Prisma.UsuarioUpsertWithoutProntuariosInput
+  connect?: Prisma.UsuarioWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UsuarioUpdateToOneWithWhereWithoutProntuariosInput, Prisma.UsuarioUpdateWithoutProntuariosInput>, Prisma.UsuarioUncheckedUpdateWithoutProntuariosInput>
+}
+
 export type UsuarioCreateWithoutTokensInput = {
   email: string
   nome?: string | null
   senha: string
+  prontuarios?: Prisma.ProntuarioCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioUncheckedCreateWithoutTokensInput = {
@@ -377,6 +399,7 @@ export type UsuarioUncheckedCreateWithoutTokensInput = {
   email: string
   nome?: string | null
   senha: string
+  prontuarios?: Prisma.ProntuarioUncheckedCreateNestedManyWithoutUsuarioInput
 }
 
 export type UsuarioCreateOrConnectWithoutTokensInput = {
@@ -399,6 +422,7 @@ export type UsuarioUpdateWithoutTokensInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   senha?: Prisma.StringFieldUpdateOperationsInput | string
+  prontuarios?: Prisma.ProntuarioUpdateManyWithoutUsuarioNestedInput
 }
 
 export type UsuarioUncheckedUpdateWithoutTokensInput = {
@@ -406,6 +430,53 @@ export type UsuarioUncheckedUpdateWithoutTokensInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   nome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   senha?: Prisma.StringFieldUpdateOperationsInput | string
+  prontuarios?: Prisma.ProntuarioUncheckedUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioCreateWithoutProntuariosInput = {
+  email: string
+  nome?: string | null
+  senha: string
+  tokens?: Prisma.TokenCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioUncheckedCreateWithoutProntuariosInput = {
+  id?: number
+  email: string
+  nome?: string | null
+  senha: string
+  tokens?: Prisma.TokenUncheckedCreateNestedManyWithoutUsuarioInput
+}
+
+export type UsuarioCreateOrConnectWithoutProntuariosInput = {
+  where: Prisma.UsuarioWhereUniqueInput
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutProntuariosInput, Prisma.UsuarioUncheckedCreateWithoutProntuariosInput>
+}
+
+export type UsuarioUpsertWithoutProntuariosInput = {
+  update: Prisma.XOR<Prisma.UsuarioUpdateWithoutProntuariosInput, Prisma.UsuarioUncheckedUpdateWithoutProntuariosInput>
+  create: Prisma.XOR<Prisma.UsuarioCreateWithoutProntuariosInput, Prisma.UsuarioUncheckedCreateWithoutProntuariosInput>
+  where?: Prisma.UsuarioWhereInput
+}
+
+export type UsuarioUpdateToOneWithWhereWithoutProntuariosInput = {
+  where?: Prisma.UsuarioWhereInput
+  data: Prisma.XOR<Prisma.UsuarioUpdateWithoutProntuariosInput, Prisma.UsuarioUncheckedUpdateWithoutProntuariosInput>
+}
+
+export type UsuarioUpdateWithoutProntuariosInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senha?: Prisma.StringFieldUpdateOperationsInput | string
+  tokens?: Prisma.TokenUpdateManyWithoutUsuarioNestedInput
+}
+
+export type UsuarioUncheckedUpdateWithoutProntuariosInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  nome?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  senha?: Prisma.StringFieldUpdateOperationsInput | string
+  tokens?: Prisma.TokenUncheckedUpdateManyWithoutUsuarioNestedInput
 }
 
 
@@ -415,10 +486,12 @@ export type UsuarioUncheckedUpdateWithoutTokensInput = {
 
 export type UsuarioCountOutputType = {
   tokens: number
+  prontuarios: number
 }
 
 export type UsuarioCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tokens?: boolean | UsuarioCountOutputTypeCountTokensArgs
+  prontuarios?: boolean | UsuarioCountOutputTypeCountProntuariosArgs
 }
 
 /**
@@ -438,6 +511,13 @@ export type UsuarioCountOutputTypeCountTokensArgs<ExtArgs extends runtime.Types.
   where?: Prisma.TokenWhereInput
 }
 
+/**
+ * UsuarioCountOutputType without action
+ */
+export type UsuarioCountOutputTypeCountProntuariosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProntuarioWhereInput
+}
+
 
 export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -445,6 +525,7 @@ export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   nome?: boolean
   senha?: boolean
   tokens?: boolean | Prisma.Usuario$tokensArgs<ExtArgs>
+  prontuarios?: boolean | Prisma.Usuario$prontuariosArgs<ExtArgs>
   _count?: boolean | Prisma.UsuarioCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["usuario"]>
 
@@ -472,6 +553,7 @@ export type UsuarioSelectScalar = {
 export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "nome" | "senha", ExtArgs["result"]["usuario"]>
 export type UsuarioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tokens?: boolean | Prisma.Usuario$tokensArgs<ExtArgs>
+  prontuarios?: boolean | Prisma.Usuario$prontuariosArgs<ExtArgs>
   _count?: boolean | Prisma.UsuarioCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -481,6 +563,7 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Usuario"
   objects: {
     tokens: Prisma.$TokenPayload<ExtArgs>[]
+    prontuarios: Prisma.$ProntuarioPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -882,6 +965,7 @@ readonly fields: UsuarioFieldRefs;
 export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tokens<T extends Prisma.Usuario$tokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$tokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  prontuarios<T extends Prisma.Usuario$prontuariosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Usuario$prontuariosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProntuarioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1324,6 +1408,30 @@ export type Usuario$tokensArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.TokenScalarFieldEnum | Prisma.TokenScalarFieldEnum[]
+}
+
+/**
+ * Usuario.prontuarios
+ */
+export type Usuario$prontuariosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Prontuario
+   */
+  select?: Prisma.ProntuarioSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Prontuario
+   */
+  omit?: Prisma.ProntuarioOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProntuarioInclude<ExtArgs> | null
+  where?: Prisma.ProntuarioWhereInput
+  orderBy?: Prisma.ProntuarioOrderByWithRelationInput | Prisma.ProntuarioOrderByWithRelationInput[]
+  cursor?: Prisma.ProntuarioWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProntuarioScalarFieldEnum | Prisma.ProntuarioScalarFieldEnum[]
 }
 
 /**

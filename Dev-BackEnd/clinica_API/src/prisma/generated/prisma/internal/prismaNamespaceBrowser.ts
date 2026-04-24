@@ -53,7 +53,10 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Usuario: 'Usuario',
   Exame: 'Exame',
-  Token: 'Token'
+  Token: 'Token',
+  Paciente: 'Paciente',
+  Prontuario: 'Prontuario',
+  Consulta: 'Consulta'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -88,7 +91,8 @@ export const ExameScalarFieldEnum = {
   valor: 'valor',
   descricao: 'descricao',
   resultado: 'resultado',
-  data_exame: 'data_exame'
+  data_exame: 'data_exame',
+  pacienteId: 'pacienteId'
 } as const
 
 export type ExameScalarFieldEnum = (typeof ExameScalarFieldEnum)[keyof typeof ExameScalarFieldEnum]
@@ -104,6 +108,43 @@ export const TokenScalarFieldEnum = {
 } as const
 
 export type TokenScalarFieldEnum = (typeof TokenScalarFieldEnum)[keyof typeof TokenScalarFieldEnum]
+
+
+export const PacienteScalarFieldEnum = {
+  id: 'id',
+  nome: 'nome',
+  cpf: 'cpf',
+  telefone: 'telefone',
+  email: 'email',
+  data_nascimento: 'data_nascimento',
+  sexo: 'sexo',
+  responsavel: 'responsavel'
+} as const
+
+export type PacienteScalarFieldEnum = (typeof PacienteScalarFieldEnum)[keyof typeof PacienteScalarFieldEnum]
+
+
+export const ProntuarioScalarFieldEnum = {
+  id: 'id',
+  descricao: 'descricao',
+  data: 'data',
+  medico_responsavel_id: 'medico_responsavel_id',
+  paciente_id: 'paciente_id'
+} as const
+
+export type ProntuarioScalarFieldEnum = (typeof ProntuarioScalarFieldEnum)[keyof typeof ProntuarioScalarFieldEnum]
+
+
+export const ConsultaScalarFieldEnum = {
+  id: 'id',
+  motivo: 'motivo',
+  data_consulta: 'data_consulta',
+  observacoes: 'observacoes',
+  medico_responsavel_id: 'medico_responsavel_id',
+  paciente_id: 'paciente_id'
+} as const
+
+export type ConsultaScalarFieldEnum = (typeof ConsultaScalarFieldEnum)[keyof typeof ConsultaScalarFieldEnum]
 
 
 export const SortOrder = {

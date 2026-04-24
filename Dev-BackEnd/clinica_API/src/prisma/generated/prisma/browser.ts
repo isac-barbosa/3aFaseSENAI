@@ -32,3 +32,18 @@ export type Exame = Prisma.ExameModel
  * 
  */
 export type Token = Prisma.TokenModel
+/**
+ * Model Paciente
+ * 
+ */
+export type Paciente = Prisma.PacienteModel
+/**
+ * Model Prontuario
+ * 
+ */
+export type Prontuario = Prisma.ProntuarioModel
+/**
+ * Model Consulta
+ * 
+ */
+export type Consulta = Prisma.ConsultaModel

@@ -23,7 +23,7 @@ export class ConsultaServices {
         return consultaCriado
     }
 
-    async buscarconsultaId(idConsulta: number) {
+    async buscarConsultaId(idConsulta: number) {
         const consulta = await this.repository.buscarConsultaId(idConsulta);
         return consulta;
     }

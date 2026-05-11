@@ -14,6 +14,7 @@ export class AuthService {
         const usuarioCriado = await this.repository.cadastrar({
             email: dadosUsuario.email,
             nome: dadosUsuario.nome || null,
+            role: dadosUsuario.role || null,
             senha: hash
         })
         return usuarioCriado
@@ -22,15 +23,18 @@ export class AuthService {
     async logar(dadosUsuario: Partial<Usuario>) {
         const existeUsuario = await this.repository.existeUsuario(dadosUsuario.email || '')
         const credenciaisValidas = await bcrypt.compare(dadosUsuario.senha || "", existeUsuario?.senha || "")
+
         console.log(existeUsuario, credenciaisValidas, dadosUsuario)
         if (existeUsuario && credenciaisValidas) {
             const tokenAcesso = signTokenAcesso({
                 email: existeUsuario.email,
-                nome: existeUsuario.nome
+                nome: existeUsuario.nome,
+                role: existeUsuario.role
             })
             const tokenRefresh = signTokenRefresh({
                 email: existeUsuario.email,
-                nome: existeUsuario.nome
+                nome: existeUsuario.nome,
+                role: existeUsuario.role
             })
 
             const accessExpires = new Date()

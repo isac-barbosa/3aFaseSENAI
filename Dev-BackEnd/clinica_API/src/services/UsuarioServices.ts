@@ -19,6 +19,7 @@ export class UsuarioServices {
         const usuarioCriado = await this.repository.criarUsuario({
             email: dadosUsuario.email,
             nome: dadosUsuario.nome || null,
+            role: dadosUsuario.role || null,
             senha: hash
         })
         return usuarioCriado

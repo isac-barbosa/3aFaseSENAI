@@ -6,9 +6,12 @@ class ConsultaController {
     constructor(private readonly service: ConsultaServices) {
     }
 
-    async listarConsultas(_: Request, res: Response){
+    async listarConsultas(req: Request, res: Response){
         try{
-            const consulta = await this.service.listarConsultas();
+            const pagina = req.query.pagina ? Number(req.query.pagina) : undefined
+            const limite = req.query.limite ? Number(req.query.limite) : undefined
+            
+            const consulta = await this.service.listarConsultas(pagina, limite);
             return res.status(200).json(consulta)
         }catch (error){
             console.log(error)

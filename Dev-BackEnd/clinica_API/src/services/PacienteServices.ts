@@ -9,8 +9,8 @@ export class PacienteServices {
     constructor(private readonly repository: PacienteRepository) { // TO-DO TIPAR SERVICE
     }
 
-    async listarPacientes() {
-        const pacientes = await this.repository.listarPacientes()
+    async listarPacientes(pagina?: number, limite?: number) {
+        const pacientes = await this.repository.listarPacientes(pagina, limite)
         return pacientes
     }
 

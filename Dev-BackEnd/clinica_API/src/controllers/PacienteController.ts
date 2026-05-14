@@ -6,9 +6,12 @@ class PacienteController {
     constructor(private readonly service: PacienteServices) {
     }
 
-    async listarPacientes(_: Request, res: Response){
+    async listarPacientes(req: Request, res: Response){
         try{
-            const paciente = await this.service.listarPacientes();
+            const pagina = req.query.pagina ? Number(req.query.pagina) : undefined
+            const limite = req.query.limite ? Number(req.query.limite) : undefined
+
+            const paciente = await this.service.listarPacientes(pagina, limite);
             return res.status(200).json(paciente)
         }catch (error){
             console.log(error)

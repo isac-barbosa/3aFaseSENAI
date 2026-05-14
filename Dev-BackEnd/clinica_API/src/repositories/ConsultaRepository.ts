@@ -7,10 +7,20 @@ export class ConsultaRepository {
     constructor(private readonly prisma: PrismaClient) {
         this.prisma = prisma
     }
-    async listarConsultas() {
-        const consulta = await prisma.consulta.findMany()
-        return consulta
-    }
+    async listarConsultas(pagina?: number, limite?: number ) {
+         const existePaginacao = pagina! && limite!
+        if (!existePaginacao) return await prisma.consulta.findMany()
+       const consulta = await prisma.consulta.findMany({
+            skip: (pagina - 1) * limite,
+            take: limite
+    })
+    const total = await prisma.paciente.count()
+    const totalPaginas = Math.ceil(total/ limite)
+    return {
+        consulta,
+        total,
+        totalPaginas
+    }}
 
     async buscarConsulta(dadosConsulta: Partial<Consulta>) {
         const consulta = await prisma.consulta.findMany()

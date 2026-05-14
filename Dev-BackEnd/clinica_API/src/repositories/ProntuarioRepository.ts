@@ -7,10 +7,20 @@ export class ProntuarioRepository {
     constructor(private readonly prisma: PrismaClient) {
         this.prisma = prisma
     }
-    async listarProntuarios() {
-        const prontuario = await prisma.prontuario.findMany()
-        return prontuario
-    }
+    async listarProntuarios(pagina?: number | undefined, limite?: number | undefined) {
+         const existePaginacao = pagina! && limite!
+        if (!existePaginacao) return await prisma.prontuario.findMany()
+             const prontuario = await prisma.prontuario.findMany({
+            skip: (pagina - 1) * limite,
+            take: limite
+    })
+    const total = await prisma.prontuario.count()
+    const totalPaginas = Math.ceil(total/ limite)
+    return {
+        prontuario,
+        total,
+        totalPaginas
+    }    }
 
     async buscarProntuario(dadosProntuario: Partial<Prontuario>) {
         const prontuario = await prisma.prontuario.findMany()

@@ -19,6 +19,16 @@
       "email": "luciano3@gmail.com",
       "password": "asdf1234",
       "id": "GBMuy9BRnQc"
+    },
+    {
+      "email": "isac@gmail.com",
+      "password": "12345678",
+      "id": "xf7W3fXvkeA"
+    },
+    {
+      "email": "isac@gmail.com",
+      "password": "987654321",
+      "id": "Tp2pjX-NOMs"
     }
   ],
   "patients": [
@@ -117,6 +127,16 @@
       "medication": "Lorem Ipsum",
       "dosagePrecautions": "Lorem Ipsum",
       "id": "1"
+    },
+    {
+      "patientId": "2",
+      "reason": "Pe quebrado",
+      "date": "2026-06-16",
+      "time": "16:41",
+      "description": "Pe quebrado sem conseguir andar",
+      "medication": "Cirurgia",
+      "dosagePrecautions": "sim",
+      "id": "iTS9YA67J60"
     }
   ],
   "exams": [
@@ -129,6 +149,17 @@
       "documentUrl": "https://docexemplo.com",
       "results": "Lorem",
       "id": "1"
+    },
+    {
+      "patientId": "1",
+      "name": "",
+      "date": "2026-06-16",
+      "time": "13:21",
+      "type": "sdga",
+      "documentUrl": {},
+      "results": "",
+      "laboratory": "asfgf",
+      "id": "1GbJd74zykM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

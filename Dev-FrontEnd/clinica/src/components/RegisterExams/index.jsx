@@ -3,12 +3,10 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 //modal
-
 import Modal from '../Modal'
 
+const RegisterExams = () => {
 
-
-function ConsultationForm() {
     const [searchTerm, setSearchTerm] = useState("")
     const [patients, setPatients] = useState([])
     const [selectedPatient, setSelectedPatient] = useState(null)
@@ -16,14 +14,13 @@ function ConsultationForm() {
     const [isSaving, setIsSaving] = useState(false)
 
     const [formData, setFormData] = useState({
-        reason: "",
+        name: "",
         date: "",
         time: "",
-        description: "",
-        medication: "",
-        dosagePrecautions: "",
+        type: "",
+        documentUrl: "",
+        results: ""
     })
-
 
     // busca pacientes
 
@@ -79,12 +76,12 @@ function ConsultationForm() {
 
     const resetForm = () => {
         setFormData({
-            reason: "",
+            name: "",
             date: "",
             time: "",
-            description: "",
-            medication: "",
-            dosagePrecautions: "",
+            type: "",
+            documentUrl: "",
+            results: ""
         })
     }
 
@@ -102,9 +99,9 @@ function ConsultationForm() {
                 ...formData
             }
 
-            await axios.post("http://localhost:3000/consults", dataToSave)
+            await axios.post("http://localhost:3000/exams", dataToSave)
 
-            toast.success("Consulta cadastrada com sucesso!", {
+            toast.success("Exame cadastrado com sucesso!", {
                 autoClose: 2000,
                 hideProgressBar: true
             })
@@ -113,14 +110,46 @@ function ConsultationForm() {
             handleCloseModal()
 
         } catch (error) {
-            console.error("Erro ao cadastrar consulta!")
-            toast.error("Erro ao cadastrar consulta!", {
+            console.error("Erro ao cadastrar exame!")
+            toast.error("Erro ao cadastrar exame!", {
                 autoClose: 2000,
                 hideProgressBar: true
             })
         }
     }
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+
+        if (!file) return;
+
+        // Validar tipo
+        const allowedTypes = [
+            "application/pdf",
+            "image/png",
+            "image/jpeg"
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+            alert("Apenas PDF, PNG ou JPG são permitidos.");
+            e.target.value = "";
+            return;
+        }
+
+        // Validar tamanho (5MB)
+        const maxSize = 5 * 1024 * 1024;
+
+        if (file.size > maxSize) {
+            alert("O arquivo deve ter no máximo 5MB.");
+            e.target.value = "";
+            return;
+        }
+
+        setFormData({
+            ...formData,
+            documentUrl: file
+        });
+    };
 
 
     return (
@@ -129,7 +158,7 @@ function ConsultationForm() {
 
             <div className='mb-6'>
                 <label className='block text-sm font-semibold mb-2'>
-                    Buscar paciente para cadastrar a consulta
+                    Buscar paciente para cadastrar o exame
                 </label>
                 <input
                     type='text'
@@ -177,7 +206,7 @@ function ConsultationForm() {
             </ul>
 
 
-            {/* Modal de cadastro de consulta */}
+            {/* Modal de cadastro de exame */}
 
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                 {
@@ -185,7 +214,7 @@ function ConsultationForm() {
                         <>
                             {/* Título */}
                             <h2 className='text-lg font-bold mb-4 text-cyan-700'>
-                                Cadastrar consulta para {selectedPatient.fullName}
+                                Cadastrar exame para {selectedPatient.fullName}
                             </h2>
 
                             {/* Dados básicos */}
@@ -198,26 +227,7 @@ function ConsultationForm() {
                                 </p>
                             </div>
 
-                            {/* Formulário */}
-
                             <form onSubmit={handleSubmit} className='space-y-4'>
-                                {/* motivo da consulta */}
-                                <div>
-                                    <label htmlFor='reason' className='block text-sm font-medium mb-1'>
-                                        Motivo da Consulta
-                                    </label>
-
-                                    <input
-                                        type='text'
-                                        name='reason'
-                                        id='reason'
-                                        value={formData.reason}
-                                        onChange={handleInputChange}
-                                        required
-                                        className='w-full border p-2 rounded-lg focus:ring-2 focus:ring-cyan-600 outline-none'
-                                    />
-                                </div>
-
                                 <div className='grid grid-cols-2 gap-4'>
                                     {/* data */}
                                     <div>
@@ -234,6 +244,7 @@ function ConsultationForm() {
                                             required
                                             className='w-full border p-2 rounded-lg focus:ring-2 focus:ring-cyan-600 outline-none'
                                         />
+
                                     </div>
                                     {/* Hora */}
                                     <div>
@@ -254,17 +265,17 @@ function ConsultationForm() {
 
                                 </div> {/* fechamento do grid*/}
 
-                                {/* Descrição do problema */}
+                                {/* Tipo do exame */}
 
                                 <div>
-                                    <label htmlFor='description' className='block text-sm font-medium mb-1'>
-                                        Descrição do problema
+                                    <label htmlFor='type' className='block text-sm font-medium mb-1'>
+                                        Tipo do exame
                                     </label>
 
                                     <textarea
-                                        name='description'
-                                        id='description'
-                                        value={formData.description}
+                                        name='type'
+                                        id='type'
+                                        value={formData.type}
                                         rows={3}
                                         onChange={handleInputChange}
                                         required
@@ -272,18 +283,18 @@ function ConsultationForm() {
                                     />
                                 </div>
 
-                                {/* Medicação receitada */}
+                                {/* Laboratótio */}
 
                                 <div>
-                                    <label htmlFor='medication' className='block text-sm font-medium mb-1'>
-                                        Medicação receitada
+                                    <label htmlFor='laboratory' className='block text-sm font-medium mb-1'>
+                                        Laboratótio
                                     </label>
 
                                     <input
                                         type='text'
-                                        name='medication'
-                                        id='medication'
-                                        value={formData.medication}
+                                        name='laboratory'
+                                        id='laboratory'
+                                        value={formData.laboratory}
                                         onChange={handleInputChange}
                                         required
                                         className='w-full border p-2 rounded-lg focus:ring-2 focus:ring-cyan-600 outline-none'
@@ -291,23 +302,29 @@ function ConsultationForm() {
                                 </div>
 
 
-                                {/* Dosagem e Precauções */}
+                                {/* URL do documento*/}
 
                                 <div>
-                                    <label htmlFor='dosagePrecautions' className='block text-sm font-medium mb-1'>
-                                        Dosagem e Precauções
+                                    <label
+                                        htmlFor="documentUrl"
+                                        className="block text-sm font-medium mb-1"
+                                    >
+                                        URL do documento
                                     </label>
 
                                     <input
-                                        type='text'
-                                        name='dosagePrecautions'
-                                        id='dosagePrecautions'
-                                        value={formData.dosagePrecautions}
-                                        onChange={handleInputChange}
+                                        type="file"
+                                        name="documentUrl"
+                                        id="documentUrl"
+                                        onChange={handleFileChange}
                                         required
-                                        className='w-full border p-2 rounded-lg focus:ring-2 focus:ring-cyan-600 outline-none'
+                                        accept=".pdf,.png,.jpg,.jpeg"
+                                        className="w-full border p-2 rounded-lg focus:ring-2 focus:ring-cyan-600 outline-none"
                                     />
                                 </div>
+
+
+
 
                                 {/* botões */}
 
@@ -341,7 +358,10 @@ function ConsultationForm() {
             </Modal>
 
         </section>
+
     )
 }
 
-export default ConsultationForm
+export default RegisterExams
+
+

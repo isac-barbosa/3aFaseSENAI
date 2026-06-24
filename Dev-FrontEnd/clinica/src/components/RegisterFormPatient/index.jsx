@@ -74,10 +74,44 @@ function RegisterFormPatient() {
         const cep = e.target.value.replace(/\D/g, "")
         if (cep.length === 8) fetchAdressData(cep)
 
-    }
+        }
+        
+        const yesterday = new Date()
+        yesterday.setDate(yesterday.getDate() -1)
+        
+        const maxBirthdate = yesterday.toISOString().split("T")[0]
 
+    const validateDate = () => {
+        const selectedDate = new Date(formData.birthdate)
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+
+        if (selectedDate => today) {
+            toast.error("A data de nascimento deve ser anterior à data atual ", {
+                autoClose: 2000,
+                hideProgressBar: true
+            })
+        }
+
+        
     const handleSubmit = async (e) => {
         e.preventDefault()
+        const selectedDate = new Date(formData.birthdate)
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
+
+        if (selectedDate => today) {
+            toast.error("A data de nascimento deve ser anterior à data atual ", {
+                autoClose: 2000,
+                hideProgressBar: true
+            })
+        }
+
+
+
+        
+
+
         setIsSaving
         try {
             await axios.post("http://localhost:3000/patients", formData)
@@ -86,6 +120,8 @@ function RegisterFormPatient() {
                 autoClose: 2000,
                 hideProgressBar: true
             })
+
+
 
             setFormData({
                 fullName: "",
@@ -123,6 +159,9 @@ function RegisterFormPatient() {
         }
     }
 
+
+
+    }
     return (
         <form
             onSubmit={handleSubmit}

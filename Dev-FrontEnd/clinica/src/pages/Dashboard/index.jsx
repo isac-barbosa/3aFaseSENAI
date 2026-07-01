@@ -3,6 +3,7 @@ import PatientsCounter from '../../components/counters/PatientsCounter'
 import ConsultsCounter from '../../components/counters/ConsultsCounter'
 import ExamsCounter from '../../components/counters/ExamsCounter'
 import PatientsList from '../../components/PatientsList'
+import DashboardCharts from '../../components/DashboardCharts'
 
 const Dashboard = () => {
     return (
@@ -14,6 +15,9 @@ const Dashboard = () => {
                 <ConsultsCounter />
                 <ExamsCounter />
             </div>
+
+            {/* Gráficos de estatísticas */}
+            <DashboardCharts />
 
             {/* Lista de pacientes */}
             <PatientsList />

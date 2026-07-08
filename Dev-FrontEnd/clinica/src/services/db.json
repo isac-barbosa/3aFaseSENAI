@@ -278,5 +278,35 @@
       "id": "1GbJd74zykM"
     }
   ],
+  "medicamentos": [
+    {
+      "id": "1",
+      "nome": "Dipirona Monoidratada 500mg",
+      "marca": "Medley",
+      "fabricante": "Sanofi",
+      "vencimento": "2027-08-30"
+    },
+    {
+      "id": "2",
+      "nome": "Amoxicilina 500mg",
+      "marca": "Neo Química",
+      "fabricante": "Hypera",
+      "vencimento": "2026-04-10"
+    },
+    {
+      "id": "3",
+      "nome": "Ibuprofeno 600mg",
+      "marca": "Alivium",
+      "fabricante": "Mantecorp",
+      "vencimento": "2026-07-20"
+    },
+    {
+      "id": "4",
+      "nome": "Paracetamol 750mg",
+      "marca": "Tylenol",
+      "fabricante": "Kenvue",
+      "vencimento": "2026-12-01"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

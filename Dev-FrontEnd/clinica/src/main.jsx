@@ -19,6 +19,7 @@ import RegisterFormPatient from './components/RegisterFormPatient';
 import ConsultationForm from './components/ConsultationForm';
 import ExamsForm from './components/ExamsForm';
 import PatientDetails from './components/PatientDetails';
+import MedicinesStock from './components/MedicinesStock';
 
 
 const router = createBrowserRouter([
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
       { path: "/consultas", element: <ConsultationForm /> },
       { path: "/exames", element: <ExamsForm /> },
       { path: "/paciente/:id", element: <PatientDetails /> },
+      { path: "/medicamentos", element: <MedicinesStock /> },
     ]
   }
 ]);
